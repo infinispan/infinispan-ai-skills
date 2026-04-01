@@ -1,0 +1,25 @@
+{
+  "name": "infinispan",
+  "description": "Infinispan AI skills - configuration guidance, API usage, troubleshooting, and deployment help for the Infinispan distributed data grid",
+  "version": "1.0.0",
+  "author": {
+    "name": "Infinispan Team",
+    "email": "infinispan-dev@lists.jboss.org"
+  },
+  "homepage": "https://infinispan.org",
+  "repository": "https://github.com/infinispan/infinispan-ai-skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "infinispan",
+    "cache",
+    "data-grid",
+    "distributed-cache",
+    "configuration",
+    "hot-rod",
+    "troubleshooting",
+    "kubernetes",
+    "operator",
+    "cross-site-replication",
+    "mcp"
+  ]
+}
