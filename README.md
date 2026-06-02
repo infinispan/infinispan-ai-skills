@@ -1,6 +1,6 @@
 # Infinispan AI Skills
 
-AI-powered skills for [Infinispan](https://infinispan.org) — the open-source, in-memory distributed data grid. These skills help AI coding assistants provide accurate, context-aware guidance for Infinispan configuration, API usage, troubleshooting, and deployment.
+AI-powered skills for [Infinispan](https://infinispan.org) — the open-source, in-memory distributed data grid. These skills help AI coding assistants provide accurate, context-aware guidance for Infinispan configuration, API usage, troubleshooting, tuning, deployment, and migration.
 
 ## What's Included
 
@@ -9,8 +9,10 @@ AI-powered skills for [Infinispan](https://infinispan.org) — the open-source, 
 | **infinispan** | Dispatcher — detects your intent and routes to the right sub-skill |
 | **infinispan-config** | Cache modes, persistence, indexing, encoding, security, clustering, cross-site replication |
 | **infinispan-api** | Embedded mode, Hot Rod, REST, Ickle queries, counters, transactions, Spring/Quarkus |
-| **infinispan-troubleshoot** | Structured diagnosis for cluster, serialization, performance, and persistence issues |
-| **infinispan-deploy** | Infinispan Operator, Helm charts, container images, scaling, upgrades, monitoring |
+| **infinispan-troubleshoot** | Structured diagnosis with error code index for cluster, serialization, performance, persistence, and Hot Rod issues |
+| **infinispan-tuning** | JVM sizing, GC selection, cache/persistence/network tuning, monitoring metrics and thresholds |
+| **infinispan-deploy** | Infinispan Operator, Helm charts, container images, scaling, monitoring |
+| **infinispan-migration** | Version upgrade guides, config format conversion, store migration, deprecation tracking |
 
 ## Installation
 
@@ -50,8 +52,14 @@ Once installed, the skills activate automatically when you:
 **Troubleshooting:**
 > "My cluster nodes aren't discovering each other on Kubernetes"
 
+**Tuning:**
+> "My cache writes are slow — help me diagnose and tune performance"
+
 **Deployment:**
 > "Help me deploy Infinispan on OpenShift with the Operator"
+
+**Migration:**
+> "We're upgrading from Infinispan 15 to 16 — what configuration changes do we need?"
 
 ## MCP Server Integration
 

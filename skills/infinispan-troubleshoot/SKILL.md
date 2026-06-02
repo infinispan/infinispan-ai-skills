@@ -15,6 +15,24 @@ Structured diagnosis workflows for common Infinispan problems. Optionally connec
 4. Suggest MCP server connection when live inspection would help
 5. Provide concrete fix with config/code
 
+## Error Code Index
+
+If the user has a specific ISPN or JGRP message code, use this index to jump directly
+to the relevant section. The Infinispan server also ships operational runbooks with
+detailed step-by-step procedures for these issues — when connected via MCP, check for
+`skill://` resources under `infinispan-troubleshoot/` for the full runbook files.
+
+| Code | Category | Summary |
+|------|----------|---------|
+| `ISPN000094` | Cluster | Single-member view — nodes not discovering each other |
+| `ISPN000451` | Cluster | Topology update with unexpected members |
+| `ISPN000476` | Cluster | Suspected cluster members |
+| `JGRP000032` | Cluster | Messages discarded — sender not in current view |
+| `ISPN000299` | Transactions | Unable to acquire lock within timeout |
+| `ISPN000093` | Cluster | Topology change during operations |
+| `ISPN000210` | Cluster | State transfer in progress |
+| `ISPN004003` | Cluster | Invalid magic number (0x48 = HTTP response to binary Hot Rod client) |
+
 ## Problem Classification
 
 | Symptom | Category | Start Here |
@@ -25,6 +43,7 @@ Structured diagnosis workflows for common Infinispan problems. Optionally connec
 | Cache store errors, data not persisted | Persistence | Persistence Problems |
 | Deadlocks, lock timeouts, `WriteSkewException` | Transactions | Transaction Issues |
 | Backup failures, site unreachable, state transfer timeout | Cross-Site | Cross-Site Issues |
+| Hot Rod invalid magic number, connection timeouts, topology routing | Hot Rod Client | Hot Rod Client Issues |
 
 ## Cluster Issues
 
@@ -180,6 +199,48 @@ cache.getAdvancedCache().getXAResource().recover(XAResource.TMSTARTRSCAN);
 
 Increase `chunk-size`, `timeout`, and `max-retries` for large datasets.
 
+## Hot Rod Client Issues
+
+### Invalid Magic Number (0x48)
+
+The client logs `ISPN004003: Invalid magic number. Expected 0xa1 and received 0x48`.
+The byte `0x48` is ASCII `H`, meaning the client is receiving an HTTP response instead of
+a Hot Rod binary response. This happens when a reverse proxy or load balancer intercepts
+the connection and responds with HTTP.
+
+**Fix:** Ensure the client connects directly to the Hot Rod port, or configure the proxy
+for TCP passthrough (layer 4) instead of HTTP mode (layer 7).
+
+### Connection Timeouts After Initial Connect
+
+The client connects to the first node but times out on other nodes. This happens because
+the server sends internal IP addresses (e.g. pod IPs in Kubernetes, container IPs in Docker)
+that are not reachable from the client network.
+
+**Diagnosis:**
+1. Check client intelligence setting — default is `HASH_DISTRIBUTION_AWARE`.
+2. Check what addresses the server advertises:
+   ```bash
+   curl --digest -u user:password https://localhost:11222/rest/v2/cluster?action=distribution
+   ```
+3. Compare advertised addresses with what the client can reach.
+
+**Fixes (pick one):**
+- **Set client intelligence to `BASIC`** — client uses only configured addresses, no topology routing:
+  ```java
+  builder.clientIntelligence(ClientIntelligence.BASIC);
+  ```
+- **Configure external addresses on server** — so the server advertises reachable addresses:
+  ```xml
+  <hotrod-connector external-host="public-hostname" external-port="11222"/>
+  ```
+- **Run the client inside the same network** (same Kubernetes cluster, same Docker network).
+- **Bind the server to a specific interface** instead of `0.0.0.0`.
+
+### Unresolvable Hostnames
+
+The client logs `UnknownHostException` for internal hostnames. Same root cause as above — the server sends internal hostnames in topology updates. Use the same fixes.
+
 ## MCP Server Integration
 
 When a live Infinispan server is available with MCP enabled, use it for deeper diagnosis.
@@ -198,10 +259,14 @@ bin/server.sh -Dorg.infinispan.feature.mcp=true
 | `getCacheEntry` | Inspect specific entries |
 | `getCacheConfiguration` | Review cache configuration |
 | `getCacheStats` | Check hit/miss ratio, entry count, latency |
-| `getClusterHealth` | Cluster status, members, node count |
+| `getClusterInfo` | Cluster status, members, coordinator, rebalancing state |
+| `getServerConfiguration` | Full server configuration (endpoints, security, JGroups) |
 | `queryCache` | Run Ickle queries to check data state |
 | `getSchemas` | Verify registered protobuf schemas |
 | `getCounterNames` / `getCounter` | Check counter state |
+| `getJvmMemory` | Heap/non-heap usage, GC stats, memory pools |
+| `getJvmThreads` | Thread counts, deadlock detection, optional thread dump |
+| `getJvmInfo` | JVM version, uptime, input arguments, OS info |
 
 ### Available MCP Resources
 
