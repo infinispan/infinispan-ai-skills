@@ -161,6 +161,8 @@ RestCacheClient cacheClient = restClient.cache("myCache");
 
 ## Queries (Ickle)
 
+> **For advanced query topics** (vector search, spatial search, full-text analyzers, indexing configuration, performance tuning), see the dedicated `infinispan-query` skill.
+
 Ickle is Infinispan's query language, similar to JP-QL/HQL.
 
 ### Syntax
@@ -289,6 +291,8 @@ cache.getAdvancedCache().endBatch(true); // true = commit, false = rollback
 
 ## Spring Integration
 
+> **For comprehensive Spring coverage** (Boot 3/4 starters, per-cache config, reactive, session, serialization, migration), see the dedicated `infinispan-spring` skill.
+
 ### Spring Boot Starter
 
 ```xml
@@ -329,12 +333,14 @@ public Book updateBook(String isbn, Book book) { ... }
 
 ## Quarkus Integration
 
+> **Note:** The Quarkus Infinispan extension is maintained in the Quarkus project (`io.quarkus` groupId).
+
 ### Extension
 
 ```xml
 <dependency>
-  <groupId>org.infinispan</groupId>
-  <artifactId>infinispan-quarkus-client</artifactId>
+  <groupId>io.quarkus</groupId>
+  <artifactId>quarkus-infinispan-client</artifactId>
 </dependency>
 ```
 
