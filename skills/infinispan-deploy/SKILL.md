@@ -218,14 +218,16 @@ The Operator handles graceful shutdown automatically:
 
 ### Zero-Capacity Nodes
 
-For query/compute nodes that don't hold data:
+For query/compute nodes that don't hold data, set `capacityFactor` to `0` in the cache configuration (not to be confused with persistent storage size):
 
-```yaml
-spec:
-  service:
-    container:
-      storage: 0
+```xml
+<distributed-cache name="myCache">
+  <memory max-count="10000"/>
+  <!-- This node won't own any data segments -->
+</distributed-cache>
 ```
+
+Configure `zero-capacity-node=true` on the server to make a node zero-capacity for all caches by default.
 
 ## Upgrades
 

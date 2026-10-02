@@ -100,6 +100,8 @@ builder.clustering().cacheMode(CacheMode.DIST_SYNC)
 
 ## Indexing & Querying
 
+> **For full query coverage** (Ickle syntax, vector search, spatial search, analyzers, continuous queries, performance tuning), see the dedicated `infinispan-query` skill.
+
 Enable indexing for Ickle query performance on large datasets.
 
 ```xml
@@ -133,6 +135,8 @@ Controls how entries are serialized in the cache.
 **Pitfall:** Client and server encoding must match, or you'll get serialization errors. If using Hot Rod with ProtoStream, the server cache must also use `application/x-protostream`.
 
 ## Security
+
+> **For comprehensive security coverage** (realms, SASL, TLS/mTLS, Kerberos, RBAC, credential stores, audit logging), see the dedicated `infinispan-security` skill.
 
 ### Authentication
 
@@ -217,12 +221,12 @@ Configure backup sites for geographic redundancy.
 ### Conflict Resolution (Active-Active)
 
 ```xml
-<backup site="NYC" strategy="ASYNC">
-  <conflict-resolution merge-policy="PREFER_NON_NULL"/>
-</backup>
+<backups merge-policy="PREFER_NON_NULL">
+  <backup site="NYC" strategy="ASYNC"/>
+</backups>
 ```
 
-Merge policies: `PREFER_NON_NULL`, `PREFER_ORIGIN_SITE`, `REMOVE_ALL`, or custom `ConflictManager` implementation.
+Merge policies: `PREFER_NON_NULL`, `PREFER_NULL`, `ALWAYS_REMOVE`, `DEFAULT`, or custom `XSiteEntryMergePolicy` implementation.
 
 ### Relay Configuration
 

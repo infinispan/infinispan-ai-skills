@@ -8,7 +8,14 @@ AI-powered skills for [Infinispan](https://infinispan.org) — the open-source, 
 |-------|-------------|
 | **infinispan** | Dispatcher — detects your intent and routes to the right sub-skill |
 | **infinispan-config** | Cache modes, persistence, indexing, encoding, security, clustering, cross-site replication |
-| **infinispan-api** | Embedded mode, Hot Rod, REST, Ickle queries, counters, transactions, Spring/Quarkus |
+| **infinispan-api** | Embedded mode, Hot Rod, REST, counters, transactions |
+| **infinispan-query** | Ickle queries, full-text search, vector search, spatial search, indexing, continuous queries |
+| **infinispan-spring** | Spring Boot starter, Spring Cache, Spring Session, reactive support, per-cache configuration |
+| **infinispan-hibernate** | Hibernate second-level cache, entity/collection/query cache, JPA integration |
+| **infinispan-security** | Authentication, authorization, TLS/SSL, security realms, SASL, Kerberos, audit logging |
+| **infinispan-resp** | RESP (Redis-compatible) endpoint, Jedis/Lettuce/Spring Data Redis, Redis migration |
+| **infinispan-cli** | CLI commands, cache operations, backup/restore, user management, benchmarking |
+| **infinispan-listeners** | Cache listeners, client listeners, clustered listeners, CDI events, event filtering |
 | **infinispan-troubleshoot** | Structured diagnosis with error code index for cluster, serialization, performance, persistence, and Hot Rod issues |
 | **infinispan-tuning** | JVM sizing, GC selection, cache/persistence/network tuning, monitoring metrics and thresholds |
 | **infinispan-deploy** | Infinispan Operator, Helm charts, container images, scaling, monitoring |
@@ -48,6 +55,27 @@ Once installed, the skills activate automatically when you:
 
 **API usage:**
 > "Show me how to set up a Hot Rod client with ProtoStream marshalling"
+
+**Queries & Search:**
+> "How do I do vector search with kNN in Infinispan?"
+
+**Spring:**
+> "Set up Spring Boot with Infinispan for caching and session externalization"
+
+**Hibernate:**
+> "Configure Infinispan as Hibernate second-level cache"
+
+**Security:**
+> "How do I set up TLS and LDAP authentication for Infinispan?"
+
+**RESP / Redis:**
+> "Can I use Jedis or Spring Data Redis with Infinispan?"
+
+**CLI:**
+> "How do I back up and restore an Infinispan cluster?"
+
+**Listeners:**
+> "How do I listen for cache entry changes in Hot Rod?"
 
 **Troubleshooting:**
 > "My cluster nodes aren't discovering each other on Kubernetes"
